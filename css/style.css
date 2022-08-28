@@ -16,7 +16,7 @@ body {
   font-size: 16px;
   color: #fff;
   text-align: center;
-  background: url("../assets/img/bg.jpg") center/cover, rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);
   background-blend-mode: multiply;
   transition: background-image 1s ease-in-out;
 }
@@ -80,7 +80,7 @@ body {
   background-color: transparent;
   border: 0;
   outline: 0;
-  opacity: .8;
+  opacity: .5;
   cursor: pointer;
   transition: .3s;  
 }
@@ -232,12 +232,19 @@ body {
   color: #fff;
   background-color: transparent;
   border: 0;
+  border-radius: 10px;
   outline: 0;
 }
 
 .name::placeholder {
   color: #fff;
   opacity: .6;
+}
+
+.greeting-text {
+  text-align: center;
+  margin-top: 40px;
+  width: 100vw;
 }
 
 .footer {
