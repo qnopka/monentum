@@ -265,10 +265,15 @@ body {
 
 .quote {
   min-height: 32px;
+  font-size: 1.3em;
+  font-style: italic;
+  margin-bottom: 10px;
 }
 
 .author {
   min-height: 20px;
+  font-size: .8em;
+
 }
 
 @media (max-width: 768px) {

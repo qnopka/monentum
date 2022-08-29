@@ -6,6 +6,15 @@ const body = document.querySelector('body')
 const next = document.querySelector('.slide-next')
 const prev = document.querySelector('.slide-prev')
 let randomNum
+let quoteNum
+const weatherIcon = document.querySelector('.weather-icon')
+const temperature = document.querySelector('.temperature')
+const weatherDescription = document.querySelector('.weather-description')
+const city = document.querySelector('.city')
+const quote = document.querySelector('.quote')
+const author = document.querySelector('.author')
+const changeQuote = document.querySelector('.change-quote')
+
 
 function showTime () {
   const cuttentTime = new Date()
@@ -54,6 +63,7 @@ function textContent (timeOfDay) {
 
 function setLocalStorage () {
   localStorage.setItem('name', name.value)
+  localStorage.setItem('city', city.value)
 }
 
 window.addEventListener('beforeunload', setLocalStorage)
@@ -62,13 +72,16 @@ function getLocalStorage () {
   if (localStorage.getItem('name')) {
     name.value = localStorage.getItem('name')
   }
+
+  if (localStorage.getItem('city')) {
+    city.value = localStorage.getItem('city')
+  }
 }
 
 window.addEventListener('load', getLocalStorage)
 
 function getRandomNum (min, max) {
   randomNum = Math.floor(Math.random() * (max - min) + min)
-  setBg()
 }
 getRandomNum(1, 20)
 
@@ -99,3 +112,48 @@ prev.addEventListener('click', getSlidePrev)
 showTime()
 changeRandomNum()
 showGreeting()
+
+//weather
+if (!city.value) {
+  city.value = 'Киев'
+}
+
+async function getWeather(city) {
+  if (!city) {
+    city = 'Киев'
+  }
+
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=ru&appid=0cb48b86053deaaa4abe8cd25507d3d6&units=metric`;
+  const res = await fetch(url)
+  const data = await res.json()
+
+  weatherIcon.className = 'weather-icon owf';
+  weatherIcon.classList.add(`owf-${data.weather[0].id}`)
+  temperature.textContent = `${data.main.temp}°C`
+  weatherDescription.textContent = data.weather[0].description
+}
+
+city.addEventListener('change', () => {
+  getWeather(city.value)
+})
+
+getWeather()
+
+//quotes
+
+async function getQuotes () {
+  const quotes = `./assets/data/quotes.json`
+  const res = await fetch(quotes)
+  const data = await res.json()
+  const num = Math.floor(Math.random() * data.length)
+
+  quote.textContent = data[num].text
+  author.textContent = data[num].author
+}
+
+getQuotes()
+
+changeQuote.addEventListener('click', () => {
+  getQuotes()
+})
+
