@@ -279,10 +279,11 @@ function playNext() {
 
 function playPrev() {
   playNum --
-  if (playNum === 0) playNum = playList.length-1
+  console.log(playNum)
+  if (playNum === -1) playNum = playList.length-1
   if (!btn.classList.contains('pause')) btn.classList.add('pause')
+  playAudio()
     // if (isPlay) {
-    playAudio()
   // } else {
   //   stopAudio()
   // }
