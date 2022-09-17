@@ -119,6 +119,21 @@ body {
   background-image: url("../assets/svg/play-next.svg");
 }
 
+.lang {
+  text-align: right;
+}
+
+.lang-en,
+.lang-ua {
+  transition: .3s ease-in;
+  
+}
+
+.active {
+  font-weight: 900;
+  color: #C5B358;
+}
+
 .weather {
   display: flex;
   flex-direction: column;
@@ -276,6 +291,8 @@ body {
   font-size: .8em;
 
 }
+
+
 
 @media (max-width: 768px) {
   .time {

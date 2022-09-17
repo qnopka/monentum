@@ -22,8 +22,48 @@ const btn = document.querySelector('.play')
 const prevBtn = document.querySelector('.play-prev')
 const nextBtn = document.querySelector('.play-next')
 const playListContainer = document.querySelector('.play-list')
+const en = document.querySelector('.lang-en')
+const ua = document.querySelector('.lang-ua')
+let language
+const greetingText = document.querySelector('.greeting-text')
 
+function setLocalStorage () {
+  localStorage.setItem('name', name.value)
+  localStorage.setItem('city', city.value)
+  localStorage.setItem('lang', language)
+}
 
+window.addEventListener('beforeunload', setLocalStorage)
+
+function getLocalStorage () {
+  if (localStorage.getItem('name')) {
+    name.value = localStorage.getItem('name')
+  }
+
+  if (localStorage.getItem('city')) {
+    city.value = localStorage.getItem('city')
+  }
+
+  if (localStorage.getItem('lang')) {
+    language = localStorage.getItem('lang')
+  } else {
+    language = 'en'
+  }
+  if (language === 'en') {
+    en.classList.add('active')
+    ua.classList.remove('active')
+  } else if (language === 'ua') {
+    ua.classList.add('active')
+    en.classList.remove('active')
+  }
+  greetingText.textContent = language === 'ua' ? `💙 Ми з України 💛` : `💙 We are from Ukraine 💛`
+  city.placeholder = language === 'ua' ? `[Введіть місто]` : `[Enter city]`
+  name.placeholder = language === 'ua' ? `[Введіть імʼя]` : `[Enter your name]`
+  getQuotes()
+  getWeather()
+}
+
+window.addEventListener('load', getLocalStorage)
 
 function showTime () {
   const cuttentTime = new Date()
@@ -42,12 +82,12 @@ function changeRandomNum () {
 function showDate () {
   const currentDate = new Date()
   const options = { weekday: 'long', month: 'long', day: 'numeric' }
-  const dateText = currentDate.toLocaleDateString('en-US', options)
+  const dateText = language === 'ua' ?  currentDate.toLocaleDateString('uk-UA', options) : currentDate.toLocaleDateString('en-US', options)
   date.textContent = dateText
 }
 
 function showGreeting () {
-  const timeOfDay = getTimeOfDay()
+  const timeOfDay = getTimeOfDayGreeting()
   greeting.textContent = textContent(timeOfDay)
 }
 
@@ -55,39 +95,57 @@ function getTimeOfDay () {
   const date = new Date()
   const hours = date.getHours()
 
-  if (hours >= 6 && hours < 12) {
-    return 'morning'
-  } else if (hours >= 12 && hours < 18) {
-    return 'afternoon'
-  } else if (hours >= 18 && hours < 24) {
-    return 'evening'
-  } else {
-    return 'night'
+    if (hours >= 6 && hours < 12) {
+      return 'morning'
+    } else if (hours >= 12 && hours < 18) {
+      return 'afternoon'
+    } else if (hours >= 18 && hours < 24) {
+      return 'evening'
+    } else {
+      return 'night'
+    }
+  
+}
+
+function getTimeOfDayGreeting () {
+  const date = new Date()
+  const hours = date.getHours()
+
+  if (language === 'en') {
+    if (hours >= 6 && hours < 12) {
+      return 'morning'
+    } else if (hours >= 12 && hours < 18) {
+      return 'afternoon'
+    } else if (hours >= 18 && hours < 24) {
+      return 'evening'
+    } else {
+      return 'night'
+    }
+  } else if (language === 'ua') {
+    if (hours >= 6 && hours < 12) {
+      return 'ранку'
+    } else if (hours >= 12 && hours < 18) {
+      return 'дня'
+    } else if (hours >= 18 && hours < 24) {
+      return 'вечора'
+    } else {
+      return 'ночі'
+    }
   }
 }
 
 function textContent (timeOfDay) {
-  return `Good ${timeOfDay}, `
-}
-
-function setLocalStorage () {
-  localStorage.setItem('name', name.value)
-  localStorage.setItem('city', city.value)
-}
-
-window.addEventListener('beforeunload', setLocalStorage)
-
-function getLocalStorage () {
-  if (localStorage.getItem('name')) {
-    name.value = localStorage.getItem('name')
+  if (language === 'en') {
+    return `Good ${timeOfDay}, `
+  } else if (language === 'ua') {
+    if (timeOfDay === 'ночі') {
+      return `Доброї ${timeOfDay}, `
+    } else {
+      return `Доброго ${timeOfDay}, `
+    }
   }
-
-  if (localStorage.getItem('city')) {
-    city.value = localStorage.getItem('city')
-  }
+  
 }
-
-window.addEventListener('load', getLocalStorage)
 
 function getRandomNum (min, max) {
   randomNum = Math.floor(Math.random() * (max - min) + min)
@@ -124,15 +182,19 @@ showGreeting()
 
 //weather
 if (!city.value) {
-  city.value = 'Kyiv'
+  city.value = language === 'en' ?  'Kyiv' : 'Київ'
 }
 
 async function getWeather(city) {
   if (!city) {
-    city = 'Kyiv'
+    city = language === 'ua' ? 'Київ' : 'Kyiv' 
+  }
+  if (!language) {
+    language = language === 'ua' ? 'ua' : 'en' 
+    console.log(language)
   }
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=en&appid=0cb48b86053deaaa4abe8cd25507d3d6&units=metric`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${language}&appid=0cb48b86053deaaa4abe8cd25507d3d6&units=metric`;
   const res = await fetch(url)
   const data = await res.json()
 
@@ -151,7 +213,7 @@ getWeather()
 //quotes
 
 async function getQuotes () {
-  const quotes = `./assets/data/quotes.json`
+  const quotes =  language === 'ua' ?  `./assets/data/quotes_ua.json` : `./assets/data/quotes.json`
   const res = await fetch(quotes)
   const data = await res.json()
   const num = Math.floor(Math.random() * data.length)
@@ -205,25 +267,25 @@ btn.addEventListener('click', toggleBtn)
 function playNext() {
   playNum ++
   if (playNum === playList.length) playNum = 0
-  if (isPlay) {
+  // if (isPlay) {
     playListContainer.childNodes[playNum].classList.add('item-active')
     console.log(playListContainer.childNodes[playNum])
+    if (!btn.classList.contains('pause')) btn.classList.add('pause')
     playAudio()
-  } else {
-
-    stopAudio()
-  }
+  // } else {
+    // stopAudio()
+  // }
 }
 
 function playPrev() {
   playNum --
   if (playNum === 0) playNum = playList.length-1
-    if (isPlay) {
+  if (!btn.classList.contains('pause')) btn.classList.add('pause')
+    // if (isPlay) {
     playAudio()
-  } else {
-
-    stopAudio()
-  }
+  // } else {
+  //   stopAudio()
+  // }
 }
 
 prevBtn.addEventListener('click', playPrev)
@@ -235,3 +297,28 @@ for (let i = 0; i < playList.length; i++) {
   li.textContent = playList[i].title
   playListContainer.append(li)
 }
+
+
+// language
+
+en.addEventListener('click', () => {
+  ua.classList.remove('active')
+  en.classList.add('active')
+  language = 'en'
+  getWeather(city.value)
+  greetingText.textContent = `💙 We are from Ukraine 💛`
+  city.placeholder = `[Enter city]`
+  name.placeholder = `[Enter your name]`
+  getQuotes()
+})
+
+ua.addEventListener('click', () => {
+  en.classList.remove('active')
+  ua.classList.add('active')
+  language = 'ua'
+  getWeather(city.value)
+  greetingText.textContent = `💙 Ми з України 💛`
+  city.placeholder = `[Введіть місто]`
+  name.placeholder = `[Введіть імʼя]` 
+  getQuotes()
+})
