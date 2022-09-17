@@ -21,6 +21,8 @@ let playNum = 0
 const btn = document.querySelector('.play')
 const prevBtn = document.querySelector('.play-prev')
 const nextBtn = document.querySelector('.play-next')
+const playListContainer = document.querySelector('.play-list')
+
 
 
 function showTime () {
@@ -130,7 +132,7 @@ async function getWeather(city) {
     city = 'Киев'
   }
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=ru&appid=0cb48b86053deaaa4abe8cd25507d3d6&units=metric`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=en&appid=0cb48b86053deaaa4abe8cd25507d3d6&units=metric`;
   const res = await fetch(url)
   const data = await res.json()
 
@@ -165,15 +167,26 @@ changeQuote.addEventListener('click', () => {
   getQuotes()
 })
 
+
+// player
+
 function playAudio() {
-  audio.src = 'https://7oom.ru/audio/naturesounds/07%20Birds%20(7oom.ru).mp3'
+  console.log(playNum)
+  audio.src = playList[playNum].src;
   audio.currentTime = 0
   audio.play()
-  console.log(audio)
+  playListContainer.childNodes.forEach(element => {
+    element.classList.remove('item-active')
+  });
+  playListContainer.childNodes[playNum].classList.add('item-active')
 }
 
 function stopAudio() {
   audio.pause()
+  playListContainer.childNodes.forEach(element => {
+    element.classList.remove('item-active')
+  });
+  playListContainer.childNodes[playNum].classList.remove('item-active')
 }
 
 function toggleBtn() {
@@ -191,24 +204,34 @@ btn.addEventListener('click', toggleBtn)
 
 function playNext() {
   playNum ++
+  if (playNum === playList.length) playNum = 0
   if (isPlay) {
+    playListContainer.childNodes[playNum].classList.add('item-active')
+    console.log(playListContainer.childNodes[playNum])
     playAudio()
   } else {
 
     stopAudio()
   }
-  console.log(playNum)
 }
 
 function playPrev() {
   playNum --
-  playAudio()
-  console.log(playNum)
+  if (playNum === 0) playNum = playList.length-1
+    if (isPlay) {
+    playAudio()
+  } else {
+
+    stopAudio()
+  }
 }
 
 prevBtn.addEventListener('click', playPrev)
 nextBtn.addEventListener('click', playNext)
 
-console.log(playList)
-
-
+for (let i = 0; i < playList.length; i++) {
+  const li = document.createElement('li')
+  li.classList.add('play-item')
+  li.textContent = playList[i].title
+  playListContainer.append(li)
+}

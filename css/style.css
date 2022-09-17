@@ -10,7 +10,7 @@
 }
 
 body {
-  min-width: 480px;
+  min-width: 100vw;
   min-height: 100vh;
   font-family: 'Arial', sans-serif;
   font-size: 16px;
@@ -65,7 +65,8 @@ body {
   font-weight: 900;
 }
 
-.item-active::before {
+.item-active::before,
+.play-item.item-active {
   color: #C5B358;
 }
 
@@ -261,6 +262,8 @@ body {
 .change-quote {
   margin-bottom: 30px;
   background-image: url("../assets/svg/reload.svg");  
+  animation: 3s ease-in 1s infinite running change;
+  transition: .5s ease-in;
 }
 
 .quote {
@@ -285,14 +288,36 @@ body {
   .greeting-container {
     min-height: 40px;
     font-size: 32px;
+    justify-content: center;
   }
 
   .greeting {
     padding: 5px;
+    text-align: center;
   }
 
   .name {
     font-size: 32px;
     padding: 5px;
+    max-width: unset;
+    margin: auto;
+    text-align: center;
+  }
+}
+
+@keyframes change {
+  0% {
+    opacity: .5;
+    transform: rotate(0deg);
+  }
+  
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .5;
+    transform: rotate(180deg);
   }
 }
