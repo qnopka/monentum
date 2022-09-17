@@ -311,6 +311,8 @@ en.addEventListener('click', () => {
   city.placeholder = `[Enter city]`
   name.placeholder = `[Enter your name]`
   getQuotes()
+  showTime()
+  showGreeting()
 })
 
 ua.addEventListener('click', () => {
@@ -322,4 +324,6 @@ ua.addEventListener('click', () => {
   city.placeholder = `[Введіть місто]`
   name.placeholder = `[Введіть імʼя]` 
   getQuotes()
+  showTime()
+  showGreeting()
 })
