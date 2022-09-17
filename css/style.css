@@ -280,7 +280,7 @@ body {
 @media (max-width: 768px) {
   .time {
     min-height: 80px;
-    font-size: 72px;    
+    font-size: 64px;    
   }
 
   .greeting-container {
@@ -295,6 +295,7 @@ body {
     flex: auto;
   }
 
+
   .name {
     font-size: 32px;
     padding: 5px;
@@ -302,6 +303,12 @@ body {
     margin: auto;
     text-align: center;
   }
+}
+
+@media (max-width: 428px) {
+.greeting-text {
+  font-size: 8vw;
+}
 }
 
 @keyframes change {
