@@ -124,7 +124,7 @@ showGreeting()
 
 //weather
 if (!city.value) {
-  city.value = 'Киев'
+  city.value = 'Kyiv'
 }
 
 async function getWeather(city) {
