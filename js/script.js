@@ -182,7 +182,7 @@ showGreeting()
 
 //weather
 if (!city.value) {
-  city.value = language === 'en' ?  'Kyiv' : 'Київ'
+  city.value = language === 'ua' ?  'Київ' : 'Kyiv' 
 }
 
 async function getWeather(city) {
