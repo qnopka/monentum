@@ -129,7 +129,7 @@ if (!city.value) {
 
 async function getWeather(city) {
   if (!city) {
-    city = 'Киев'
+    city = 'Kyiv'
   }
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=en&appid=0cb48b86053deaaa4abe8cd25507d3d6&units=metric`;
