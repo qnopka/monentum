@@ -280,7 +280,7 @@ body {
 @media (max-width: 768px) {
   .time {
     min-height: 80px;
-    font-size: 64px;    
+    font-size: 60px;    
   }
 
   .greeting-container {

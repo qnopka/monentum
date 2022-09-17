@@ -42,7 +42,7 @@ function changeRandomNum () {
 function showDate () {
   const currentDate = new Date()
   const options = { weekday: 'long', month: 'long', day: 'numeric' }
-  const dateText = currentDate.toLocaleDateString('uk-UA', options)
+  const dateText = currentDate.toLocaleDateString('en-US', options)
   date.textContent = dateText
 }
 
