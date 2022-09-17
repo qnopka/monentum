@@ -308,6 +308,7 @@ body {
 @media (max-width: 428px) {
 .greeting-text {
   font-size: 8vw;
+  padding: 5px;
 }
 }
 
