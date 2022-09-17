@@ -1,3 +1,4 @@
+import playList from "./playList.js"
 const time = document.querySelector('.time')
 const date = document.querySelector('.date')
 const greeting = document.querySelector('.greeting')
@@ -14,6 +15,12 @@ const city = document.querySelector('.city')
 const quote = document.querySelector('.quote')
 const author = document.querySelector('.author')
 const changeQuote = document.querySelector('.change-quote')
+const audio = new Audio()
+let isPlay = false
+let playNum = 0
+const btn = document.querySelector('.play')
+const prevBtn = document.querySelector('.play-prev')
+const nextBtn = document.querySelector('.play-next')
 
 
 function showTime () {
@@ -49,7 +56,7 @@ function getTimeOfDay () {
   if (hours >= 6 && hours < 12) {
     return 'morning'
   } else if (hours >= 12 && hours < 18) {
-    return 'day'
+    return 'afternoon'
   } else if (hours >= 18 && hours < 24) {
     return 'evening'
   } else {
@@ -153,7 +160,55 @@ async function getQuotes () {
 
 getQuotes()
 
+
 changeQuote.addEventListener('click', () => {
   getQuotes()
 })
+
+function playAudio() {
+  audio.src = 'https://7oom.ru/audio/naturesounds/07%20Birds%20(7oom.ru).mp3'
+  audio.currentTime = 0
+  audio.play()
+  console.log(audio)
+}
+
+function stopAudio() {
+  audio.pause()
+}
+
+function toggleBtn() {
+  btn.classList.toggle('pause')
+  if (btn.classList.contains('pause')) {
+    isPlay = true
+    playAudio()
+  } else {
+    isPlay = false
+    stopAudio()
+  }
+}
+
+btn.addEventListener('click', toggleBtn)
+
+function playNext() {
+  playNum ++
+  if (isPlay) {
+    playAudio()
+  } else {
+
+    stopAudio()
+  }
+  console.log(playNum)
+}
+
+function playPrev() {
+  playNum --
+  playAudio()
+  console.log(playNum)
+}
+
+prevBtn.addEventListener('click', playPrev)
+nextBtn.addEventListener('click', playNext)
+
+console.log(playList)
+
 
