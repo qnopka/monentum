@@ -317,6 +317,7 @@ en.addEventListener('click', () => {
   showTime()
   showGreeting()
   stopAudio()
+  playNum = 0
   if (btn.classList.contains('pause')) btn.classList.remove('pause')
   playListContainer.textContent = ''
   for (let i = 0; i < playList.length; i++) {
@@ -340,6 +341,7 @@ ua.addEventListener('click', () => {
   showTime()
   showGreeting()
   stopAudio()
+  playNum = 0
   if (btn.classList.contains('pause')) btn.classList.remove('pause')
   playListContainer.textContent = ''
   for (let i = 0; i < playList.length; i++) {
