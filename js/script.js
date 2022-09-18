@@ -1,4 +1,5 @@
 import playList from "./playList.js"
+import playListUa from "./playList_ua.js"
 const time = document.querySelector('.time')
 const date = document.querySelector('.date')
 const greeting = document.querySelector('.greeting')
@@ -61,6 +62,14 @@ function getLocalStorage () {
   name.placeholder = language === 'ua' ? `[Введіть імʼя]` : `[Enter your name]`
   getQuotes()
   getWeather()
+  for (let i = 0; i < playList.length; i++) {
+    const li = document.createElement('li')
+    li.classList.add('play-item')
+    console.log(language)
+    li.textContent = language === 'ua' ? playListUa[i].title : playList[i].title; 
+    playListContainer.append(li)
+  }
+  
 }
 
 window.addEventListener('load', getLocalStorage)
@@ -234,8 +243,8 @@ changeQuote.addEventListener('click', () => {
 // player
 
 function playAudio() {
-  console.log(playNum)
-  audio.src = playList[playNum].src;
+  
+  audio.src = language === 'ua' ? playListUa[playNum].src : playList[playNum].src;
   audio.currentTime = 0
   audio.play()
   playListContainer.childNodes.forEach(element => {
@@ -269,7 +278,6 @@ function playNext() {
   playNum ++
   if (playNum === playList.length) playNum = 0
     playListContainer.childNodes[playNum].classList.add('item-active')
-    console.log(playListContainer.childNodes[playNum])
     if (!btn.classList.contains('pause')) btn.classList.add('pause')
     playAudio()
 
@@ -277,7 +285,6 @@ function playNext() {
 
 function playPrev() {
   playNum --
-  console.log(playNum)
   if (playNum === -1) playNum = playList.length-1
   if (!btn.classList.contains('pause')) btn.classList.add('pause')
   playAudio()
@@ -287,12 +294,13 @@ function playPrev() {
 prevBtn.addEventListener('click', playPrev)
 nextBtn.addEventListener('click', playNext)
 
-for (let i = 0; i < playList.length; i++) {
-  const li = document.createElement('li')
-  li.classList.add('play-item')
-  li.textContent = playList[i].title
-  playListContainer.append(li)
-}
+// for (let i = 0; i < playList.length; i++) {
+//   const li = document.createElement('li')
+//   li.classList.add('play-item')
+//   console.log(language)
+//   li.textContent = language === 'ua' ? playListUa[i].title : playList[i].title; 
+//   playListContainer.append(li)
+// }
 
 
 // language
@@ -308,6 +316,16 @@ en.addEventListener('click', () => {
   getQuotes()
   showTime()
   showGreeting()
+  stopAudio()
+  if (btn.classList.contains('pause')) btn.classList.remove('pause')
+  playListContainer.textContent = ''
+  for (let i = 0; i < playList.length; i++) {
+    const li = document.createElement('li')
+    li.classList.add('play-item')
+    li.textContent = language === 'ua' ? playListUa[i].title : playList[i].title; 
+    playListContainer.append(li)
+  }
+
 })
 
 ua.addEventListener('click', () => {
@@ -321,4 +339,13 @@ ua.addEventListener('click', () => {
   getQuotes()
   showTime()
   showGreeting()
+  stopAudio()
+  if (btn.classList.contains('pause')) btn.classList.remove('pause')
+  playListContainer.textContent = ''
+  for (let i = 0; i < playList.length; i++) {
+    const li = document.createElement('li')
+    li.classList.add('play-item')
+    li.textContent = language === 'ua' ? playListUa[i].title : playList[i].title; 
+    playListContainer.append(li)
+  }
 })
