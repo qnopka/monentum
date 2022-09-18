@@ -149,12 +149,14 @@ function textContent (timeOfDay) {
 
 function getRandomNum (min, max) {
   randomNum = Math.floor(Math.random() * (max - min) + min)
+  // console.log(randomNum)
 }
 getRandomNum(1, 20)
 
 function setBg () {
   const timeOfDay = getTimeOfDay()
   const bgNum = randomNum.toString().padStart(2, '0')
+  // console.log(bgNum)
   const img = new Image()
   img.src = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`
   img.onload = () => {
@@ -191,7 +193,6 @@ async function getWeather(city) {
   }
   if (!language) {
     language = language === 'ua' ? 'ua' : 'en' 
-    console.log(language)
   }
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${language}&appid=0cb48b86053deaaa4abe8cd25507d3d6&units=metric`;
@@ -267,14 +268,11 @@ btn.addEventListener('click', toggleBtn)
 function playNext() {
   playNum ++
   if (playNum === playList.length) playNum = 0
-  // if (isPlay) {
     playListContainer.childNodes[playNum].classList.add('item-active')
     console.log(playListContainer.childNodes[playNum])
     if (!btn.classList.contains('pause')) btn.classList.add('pause')
     playAudio()
-  // } else {
-    // stopAudio()
-  // }
+
 }
 
 function playPrev() {
@@ -283,10 +281,7 @@ function playPrev() {
   if (playNum === -1) playNum = playList.length-1
   if (!btn.classList.contains('pause')) btn.classList.add('pause')
   playAudio()
-    // if (isPlay) {
-  // } else {
-  //   stopAudio()
-  // }
+
 }
 
 prevBtn.addEventListener('click', playPrev)
