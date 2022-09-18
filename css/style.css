@@ -122,6 +122,8 @@ body {
 
 .lang {
   text-align: right;
+  margin-top: 10px;
+  font-size: 20px;
 }
 
 .lang-en,
@@ -141,9 +143,9 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   row-gap: 5px;
-  width: 180px;
-  min-height: 180px;  
+  min-height: 120px;  
   text-align: left;
+  margin-top: 20px;
 }
 
 .weather-error {
@@ -305,6 +307,7 @@ body {
     min-height: 40px;
     font-size: 32px;
     justify-content: center;
+    gap: 10px;
   }
 
   .greeting {
