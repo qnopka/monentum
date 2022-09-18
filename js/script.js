@@ -1,5 +1,6 @@
 import playList from "./playList.js"
 import playListUa from "./playList_ua.js"
+
 const time = document.querySelector('.time')
 const date = document.querySelector('.date')
 const greeting = document.querySelector('.greeting')
@@ -8,7 +9,7 @@ const body = document.querySelector('body')
 const next = document.querySelector('.slide-next')
 const prev = document.querySelector('.slide-prev')
 let randomNum
-let quoteNum
+// let quoteNum
 const weatherIcon = document.querySelector('.weather-icon')
 const temperature = document.querySelector('.temperature')
 const weatherDescription = document.querySelector('.weather-description')
@@ -75,8 +76,8 @@ function getLocalStorage () {
 window.addEventListener('load', getLocalStorage)
 
 function showTime () {
-  const cuttentTime = new Date()
-  time.textContent = cuttentTime.toLocaleTimeString()
+  const currentTime = new Date()
+  time.textContent = currentTime.toLocaleTimeString()
   showDate()
   showGreeting()
 
@@ -91,8 +92,7 @@ function changeRandomNum () {
 function showDate () {
   const currentDate = new Date()
   const options = { weekday: 'long', month: 'long', day: 'numeric' }
-  const dateText = language === 'ua' ?  currentDate.toLocaleDateString('uk-UA', options) : currentDate.toLocaleDateString('en-US', options)
-  date.textContent = dateText
+  date.textContent = language === 'ua' ? currentDate.toLocaleDateString('uk-UA', options) : currentDate.toLocaleDateString('en-US', options)
 }
 
 function showGreeting () {
@@ -279,7 +279,7 @@ function playNext() {
   if (playNum === playList.length) playNum = 0
     playListContainer.childNodes[playNum].classList.add('item-active')
     if (!btn.classList.contains('pause')) btn.classList.add('pause')
-    playAudio()
+    if (isPlay) playAudio()
 
 }
 
@@ -287,7 +287,7 @@ function playPrev() {
   playNum --
   if (playNum === -1) playNum = playList.length-1
   if (!btn.classList.contains('pause')) btn.classList.add('pause')
-  playAudio()
+  if (isPlay) playAudio()
 
 }
 
